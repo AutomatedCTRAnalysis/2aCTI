@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-  <br>
+  <center><div id = "logo">
+    <img src="./assets/2aCTI.png">
+  </div></center>
   <h1 class="title">Automated Analysis of Cyber Attack Reports</h1>
-  <br>
   <h2>Enter the name of a cyber attack to predict the tactics and techniques (TTPs) used according to MITRE's Attack Framework</h2>
   <br><br>
   <b-input placeholder="Search..." rounded v-model="searchBar"></b-input>
@@ -52,21 +53,39 @@ export default {
   color:midnightblue;
 }
 h1.title{
-  font-size: 50px;
-  font-family: Trebuchet MS;
+  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
   color: midnightblue;
 }
+ hr.solid{
+    border-top: 3px solid #bbb;
+  }
 p{
   color: #666e77;
 }
 #nav {
   padding: 30px;
 }
+input{
+    display: inline; 
+    padding: 10px 6px; 
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ddd; 
+    color: rgb(141, 138, 138); 
+  }
 button{
   margin: 0 10px; 
   padding: 10px; 
   border: none; 
   border-radius: 4px; 
   color: midnightblue;
+}
+#logo {
+  height: 240px;
+  width: 310px; 
+  text-align: center;
+  display: flex;
 }
 </style>
