@@ -104,7 +104,17 @@ def feature_extraction(featureExtract, X_train_text, X_test_text, average = Fals
             X_test.append(embeddings.tolist())
     return X_train, X_test
 
-
+def evaluation(Y_pred, Y_test):
+    macro_precision = precision_score(Y_test, Y_pred, average ='macro')
+    micro_precision = precision_score(Y_test, Y_pred, average ='micro')
+    macro_recall = recall_score(Y_test, Y_pred, average='macro')
+    micro_recall = recall_score(Y_test, Y_pred, average='micro')
+    macro_fscore = fbeta_score(Y_test, Y_pred, beta=0.5, average ='macro')
+    micro_fscore = fbeta_score(Y_test, Y_pred, beta=0.5, average ='micro')
+    l_metric = ['macro precision', 'micro precision', 'macro recall', 'micro recall', 'macro fscore', 'micro fscore']
+    l_result = [macro_precision, micro_precision, macro_recall, micro_recall, macro_fscore, micro_fscore]
+    df_res = pd.DataFrame({'metric': l_metric, 'result': l_result})
+    return df_res
 
         
         
