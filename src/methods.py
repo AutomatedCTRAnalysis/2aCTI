@@ -52,9 +52,9 @@ def feature_extraction(featureExtract, X_train_text, X_test_text, average = Fals
     
     if featureExtract in ['CountVectorizer', 'TfIdfVectorizer']:
         if featureExtract == 'CountVectorizer':
-            fe = CountVectorizer(analyzer ='word', stop_words ='english', lowercase = True, min_df = 2, max_df = 0.99) # if words used less than 0.001 % and in less than 2 documents --> ignore  
+            fe = CountVectorizer(analyzer ='word', stop_words ='english', lowercase = True, min_df = 50, max_df = 0.99) # if words used less than 0.001 % and in less than 2 documents --> ignore  
         else:
-            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 2, max_df=0.99)
+            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 50, max_df=0.99)
         
         X_train = fe.fit_transform(X_train_text)
         X_train = pd.DataFrame(X_train.toarray(), columns = fe.get_feature_names()) 
