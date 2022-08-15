@@ -21,7 +21,7 @@ import os
 import re
 
 import gensim 
-from gensim.models import Word2Vec
+from gensim.models import Word2Vec, Doc2Vec
 import gensim.downloader
 
 import pickle 
@@ -52,9 +52,9 @@ def feature_extraction(featureExtract, X_train_text, X_test_text, average = Fals
     
     if featureExtract in ['CountVectorizer', 'TfIdfVectorizer']:
         if featureExtract == 'CountVectorizer':
-            fe = CountVectorizer(analyzer ='word', stop_words ='english', lowercase = True, min_df = 50, max_df = 0.99) # if words used less than 0.001 % and in less than 2 documents --> ignore  
+            fe = CountVectorizer(analyzer ='word', stop_words ='english', lowercase = True, min_df = 2, max_df = 0.99) # if words used less than 0.001 % and in less than 2 documents --> ignore  
         else:
-            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 50, max_df=0.99)
+            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 2, max_df=0.99)
         
         X_train = fe.fit_transform(X_train_text)
         X_train = pd.DataFrame(X_train.toarray(), columns = fe.get_feature_names()) 
@@ -64,7 +64,6 @@ def feature_extraction(featureExtract, X_train_text, X_test_text, average = Fals
             # save as pickle without lemmatisation
             with open(fe_filename, 'wb') as handle:
                 pickle.dump(fe, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    
     else:
         fe = None
         if embedding_type is None:
@@ -74,6 +73,8 @@ def feature_extraction(featureExtract, X_train_text, X_test_text, average = Fals
         # sent is tokenised sentence on which we do the embedding      
         def get_embeddings(sent, tfidf, model, average=False):     
             # if text not in vocab:
+            if isinstance(embedding_type, Doc2Vec):
+                return model.infer_vector(tokens)
             words_in_vocab = [word for word in sent if word in model]
             if not words_in_vocab:
                 return np.zeros_like(model['the'])
