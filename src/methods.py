@@ -29,7 +29,6 @@ import pickle
 import nltk
 from nltk.tokenize import word_tokenize
 
-import spacy
 import matplotlib
 import plotly.express as px
 import plotly.subplots as sp
@@ -43,18 +42,13 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
-from flair.embeddings import TransformerDocumentEmbeddings
-from flair.models import TextClassifier
-from flair.trainers import ModelTrainer
-import flair
-
 def feature_extraction(featureExtract, X_train_text, X_test_text, average = False, embedding_type = None, weighted=False, fe_filename=None):
     
     if featureExtract in ['CountVectorizer', 'TfIdfVectorizer']:
         if featureExtract == 'CountVectorizer':
             fe = CountVectorizer(analyzer ='word', stop_words ='english', lowercase = True, min_df = 2, max_df = 0.99) # if words used less than 0.001 % and in less than 2 documents --> ignore  
         else:
-            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 2, max_df=0.99)
+            fe = TfidfVectorizer(analyzer = 'word', stop_words='english', lowercase=True, min_df = 10, max_df=0.99)
         
         X_train = fe.fit_transform(X_train_text)
         X_train = pd.DataFrame(X_train.toarray(), columns = fe.get_feature_names()) 
